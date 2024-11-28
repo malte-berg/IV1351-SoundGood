@@ -138,7 +138,7 @@ EXECUTE FUNCTION insert_reciprocal_sibling();
 INSERT INTO student_sibling (student_id, sibling_id)
 VALUES
     (1,2),
-    (3,4).
+    (3,4);
 
 INSERT INTO instructor (first_name,last_name,person_number,phone,email,adress,can_teach_ensemble)
 VALUES
