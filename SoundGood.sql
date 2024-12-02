@@ -1,3 +1,9 @@
+CREATE TYPE level AS ENUM (
+    'beginner',
+    'intermediate',
+    'advanced'
+);
+
 CREATE TABLE "student"
 (
   "student_id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -26,8 +32,8 @@ CREATE TABLE "rental_instrument"
   "type" varchar(50),
   "brand" varchar(50),
   "price" varchar(20),
-  "start_date" varchar(20),
-  "end_date" varchar(20),
+  "start_date" date,
+  "end_date" date,
   "student_id" int REFERENCES "student"
 );
 
@@ -35,7 +41,7 @@ CREATE TABLE "instrument"
 (
   "instrument_id" int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "type" varchar(20),
-  "skill" varchar(20)
+  "skill" level
 );
 
 CREATE TABLE "student_instrument"
@@ -58,13 +64,6 @@ CREATE TABLE "pricing_scheme"
   "group_advanced_p" varchar(20),
   "ensemble_p" varchar(20)
  );
-
- CREATE TABLE "sibling"
-(
-  "sibling_id" int GENERATED ALWAYS AS IDENTITY,
-  "student_id" int NOT NULL REFERENCES "student" ON DELETE CASCADE,
-  PRIMARY KEY("student_id", "sibling_id")
-);
 
 CREATE TABLE student_sibling (
     "student_id" INT NOT NULL,
@@ -98,9 +97,9 @@ CREATE TABLE "time_slot"
 (
   "time_slot_id" int GENERATED ALWAYS AS IDENTITY,
   "instructor_id" int NOT NULL REFERENCES "instructor",
-  "start_time" varchar(10),
-  "end_time" varchar(10),
-  "date" varchar(20),
+  "start_time" time,
+  "end_time" time,
+  "date" date,
   PRIMARY KEY("instructor_id", "time_slot_id")
 );
 
@@ -124,7 +123,7 @@ CREATE TABLE "ensemble"
 (
   "ensemble_id" int GENERATED ALWAYS AS IDENTITY,
   "lesson_id" int NOT NULL REFERENCES "lesson",
-  "genre" varchar(10),
+  "genre" varchar(50),
   "min_attendees" varchar(10),
   "max_attendees" varchar(10),
   PRIMARY KEY("lesson_id", "ensemble_id")
@@ -135,7 +134,7 @@ CREATE TABLE "group_lesson"
   "group_lesson_id" int GENERATED ALWAYS AS IDENTITY,
   "lesson_id" int NOT NULL REFERENCES "lesson",
   "instrument" varchar(20),
-  "skill" varchar(20),
+  "skill" level,
   "min_attendees" varchar(10),
   "max_attendees" varchar(10),
   PRIMARY KEY("lesson_id", "group_lesson_id")
@@ -146,7 +145,7 @@ CREATE TABLE "individual_lesson"
   "individual_lesson_id" int GENERATED ALWAYS AS IDENTITY,
   "lesson_id" int NOT NULL REFERENCES "lesson",
   "instrument" varchar(20),
-  "skill" varchar(20),
+  "skill" level,
   PRIMARY KEY("lesson_id", "individual_lesson_id")
 );
 
